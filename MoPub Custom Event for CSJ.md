@@ -3,14 +3,14 @@
 > Please set [MoPub](https://developers.mopub.com/publishers/ios/integrate/) in your app first.
 
 * Required Steps for integration
-  * [Setup Pangle platform](#setup-pangle)
-  * [Add Pangle to MoPub's mediation](#add-pangle)
+  * [Setup CSJ platform](#setup-csj)
+  * [Add CSJ to MoPub's mediation](#add-csj)
     * [Adapters for different ad formats](#adapter-file)
-  * [Initialize Pangle SDK and adapters](#import-pangle)
-    * [Pangle SDK's integration and initialize](#import-sdk)
-    * [Embed Pangle adapters](#import-adapter)
+  * [Import and initialize CSJ SDK and adapters](#import-csj)
+  
 
-<a name="setup-pangle"></a>
+
+<a name="setup-csj"></a>
 ## Setup Pangle Platform
 ### Create a Pangle account
 
@@ -47,7 +47,7 @@
 <img src="./pics/placement-id.png" alt="drawing" width="400"/>
 
 
-<a name="add-pangle"></a>
+<a name="add-csj"></a>
 ## Add Pangle to MoPub's mediation
 
 ### Create Order 
@@ -68,7 +68,7 @@
 
 
 - Add adapter's class name to Class Name.
-    - **Class Name**: the adapter class's name , for example,`BUDAdmob_RewardCustomEventAdapter`
+    - **Class Name**: the adapter class's name , for example,`CSJRewardedVideoCustomEvent`
 
 - Add `{"app_id":"your app id", "ad_placement_id":"your placement id"}` to Parameter.
     - **Parameter**: Add {"app_id":"[your app id](#app-id)", "ad_placement_id":"[your placement id](#placementID)"} to Parameter , for example,`{"app_id":"5000546", "ad_placement_id":"946411987"}`
@@ -85,57 +85,51 @@
 - Native Ads:`CSJNativeCustomEvent`
 
 
-- Embed your MoPub Ad Placement for this line item.
+- Embed your MoPub Ad Placement to the line item.
 <br>
 <img src="./pics/add-custom-event.png" alt="drawing" width="400"/>
 
-<a name="import-pangle"></a>
-## Initialize CSJ SDK and Adapter
+<a name="import-csj"></a>
+## Import and initialize CSJ SDK and Adapter
 
-<a name="import-sdk"></a>
-### Import and Init CSJ SDK
 Add the information as follows in Podfile, and using `pod install` to intergrate.
 ```
-pod 'Ads-Global'
+//Import CSJ SDK
+pod 'Ads-CN'
+//Import CSJ-MoPub Custom Event Adapter
+pod "CSJ-mopub-adapter"
 ```
 
-Initialize Pangle with the APP ID as the argument. Unless there is a particular reason, stipulate as
+Initialize `CSJAdapterConfiguration` with the APP ID when you do MoPub SDK initialization, this step is used to initialize CSJ SDK, it's required.
 
-**UIApplicationDelegate application(_:didFinishLaunchingWithOptions:)**
-
-```swift
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-
-    BUAdSDKManager.setAppID("your_app_id")
-
-    return true
-}
+```
+    //set up mopub sdk config
+    MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:@"5bf96fc264934e838ac8fe8150c01b8f"];
+    
+    NSMutableDictionary *networkConfig = [NSMutableDictionary dictionaryWithCapacity:2];
+    
+    NSMutableDictionary *InitConfig = [[NSMutableDictionary alloc] init];
+    
+    //set your CSJ App Id to value, hardcode app_id for the key name
+    [InitConfig setValue:@"Your CSJ APP Id" forKey:@"app_id"];
+    
+    //init CSJAdapterConfiguration with the config
+    NSDictionary *config = @{@"CSJAdapterConfiguration":InitConfig};
+    
+    [networkConfig addEntriesFromDictionary:config];
+    
+    Class<MPAdapterConfiguration> BUAdSDKAdapterConfiguration = NSClassFromString(@"CSJAdapterConfiguration");
+    sdkConfig.additionalNetworks = @[BUAdSDKAdapterConfiguration];
+    
+    sdkConfig.mediatedNetworkConfigurations = networkConfig;
+    
+    [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:^{
+        NSLog(@"Mopub initializeSdk");
+    }];
 ```
 
-Please refer to [Integrate Pangle SDK](https://www.pangleglobal.com/help/doc/6034ac60511c57004360ff72)
-and [Initialize Pangle SDK](https://www.pangleglobal.com/help/doc/6034ac73511c57004360ff76) for manual integration and more information.
-
-<a name="import-adapter"></a>
-### Embed Pangle Adapters
-- Click `SDK Integration` -> `SDK download`, you can download adapters for different ad formats from your Pangle platform.
-<br>
-<img src="./pics/mediation.png" alt="drawing" width="400"/>
-<br>
-<img src="./pics/adapter-download.png" alt="drawing" width="400"/>
-
-Please unzip the file and add adapter files from iOS folder into your application project. They can be used with no code changes. Also you can customize it for your use case.
-* You need to add `BUDAdmob_NativeFeedAd.h` and `BUDAdmob_NativeFeedAd.m`  into your project to support native ad's adapter [mapping](https://developers.google.com/admob/ios/native/native-custom-events#map_native_ads).
+Please refer to [Integrate Pangle SDK](https://www.pangleglobal.com/support/doc/6034ac60511c57004360ff72)
+and [Initialize Pangle SDK](https://www.pangleglobal.com/support/doc/6034ac73511c57004360ff76) for manual integration and more information.
 
 
-<img src="./pics/adapter-files.png" alt="drawing" width="400"/>
-
-<a name="adapter-swift"></a>
-## About Swift
-- If your project is based on Swift, please add adapter's header file into your bridge-header file.
-<br>
-<img src="./pics/bridge-header.png" alt="drawing" width="400"/>
-
-<a name="adapter-demo"></a>
-## Demo
-- You can find simple use cases from [Demo](https://github.com/bytedance/Bytedance-UnionAD/tree/master/Demo).
 
