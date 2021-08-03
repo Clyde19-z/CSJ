@@ -53,16 +53,18 @@
 ### Create Order 
 - Click `Order` -> `Create Order` to create a new order. If you already have an existing order, please move to the next step.
 
+<img src="./pics/create-order.png" alt="drawing" width="400"/>
+
 ### Create Line Item
 
 - Click `New Line Item` to create a line item.
 <br>
-<img src="./pics/add-mediation.png" alt="drawing" width="400"/>
+<img src="./pics/create-line-item.png" alt="drawing" width="400"/>
 
 
 - Select `Network Line Item` to the field `Type & Priority` and select `Custom SDK Network` to the field `Network`
 <br>
-<img src="./pics/ad-format.png" alt="drawing" width="400"/>
+<img src="./pics/line-item-setup.png" alt="drawing" width="400"/>
 
 
 - Add adapter's class name to Custom Event Class Name.
@@ -71,13 +73,13 @@
 - Add `{"app_id":"your app id", "ad_placement_id":"your placement id"}` to Custom Event Class Data.
     - **Custom Event Class Data**: Add {"app_id":"[your app id](#app-id)", "ad_placement_id":"[your placement id](#placementID)"} to Custom Event Class Data , for example,`{"app_id":"5000546", "ad_placement_id":"946411987"}`
 <br>
-<img src="./pics/mediation-param.png" alt="drawing" width="400"/>
+<img src="./pics/class-name-and-parameter.png" alt="drawing" width="400"/>
 
-  - **Please make sure to use JSON to set Parameter. Or you need to customize adapter yourself.**
+  - **Please make sure to use JSON to set Custom Event Class Data. Or you need to customize adapter yourself.**
 
 - Embed your MoPub Ad Placement to the line item.
 <br>
-<img src="./pics/add-custom-event.png" alt="drawing" width="400"/>
+<img src="./pics/embed-ad-unit.png" alt="drawing" width="400"/>
 
 <a name="adapter-file"></a>
 ### Class name for different ad formats
