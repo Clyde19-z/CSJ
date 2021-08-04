@@ -82,7 +82,7 @@
 <a name="adapter-file"></a>
 ### Class name for different ad formats
 - Reward Video Ads:`CSJRewardedVideoCustomEvent`
-- Interstitial(Fullscreen Video) Ads:`CSJInterstitialCustomEvent`
+- Interstitial Video Ads:`CSJInterstitialCustomEvent`
 - Banner Ads:`CSJBannerCustomEvent`
 - Native Ads:`CSJNativeCustomEvent`
 
