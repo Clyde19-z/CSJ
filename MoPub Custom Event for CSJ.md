@@ -11,44 +11,42 @@
 
 
 <a name="setup-csj"></a>
-## Setup Pangle Platform
-### Create a Pangle account
+## Setup CSJ Platform
+### Create a CSJ account
 
-- Please create a [Pangle account](https://www.pangleglobal.com) if you do no have one.
+- Please create a [CSJ account](https://www.pangle.cn) if you do no have one.
 
 
-### Create an application and placements in Pangle
+### Create an application and placements in CSJ Platform
 
-- Click `Apps` -> `+ Add App` to create a app for mediation.
+- Click `Apps` -> `+ Add App` to create an app for mediation.
 <br>
-<img src="./pics/create-app-home.png" alt="drawing" width="400"/>
-<br>
-<img src="./pics/create-app.png" alt="drawing" width="300"/>
+<img src="./pics/create-app-home-2.png" alt="drawing" width="400"/>
 
 <a name="app-id"></a>
 - You will get an app with its `app ID`.
 <br>
-<img src="./pics/app-id.png" alt="drawing" width="400"/>
+<img src="./pics/appid.png" alt="drawing" width="400"/>
 
 
 
 ### Create Ad Placement
 - Click `Ad Placements` -> `+ Add Ad Placement` to create the placement for mediation.
 <br>
-<img src="./pics/create-placement.png" alt="drawing" width="400"/>
+<img src="./pics/create-placement-2.png" alt="drawing" width="400"/>
 
 - Select the ad's type for your app and finish the create.
 <br>
-<img src="./pics/ad-type.png" alt="drawing" width="400"/>
+<img src="./pics/adtype.png" alt="drawing" width="400"/>
 
 <a name="placementID"></a>
 - You will get a placement with its `placement ID`.
 <br>
-<img src="./pics/placement-id.png" alt="drawing" width="400"/>
+<img src="./pics/placementid.png" alt="drawing" width="400"/>
 
 
 <a name="add-csj"></a>
-## Add Pangle to MoPub's mediation
+## Add CSJ to MoPub's mediation
 
 ### Create Order 
 - Click `Order` -> `Create Order` to create a new order. If you already have an existing order, please move to the next step.
@@ -75,7 +73,7 @@
 <br>
 <img src="./pics/class-name-and-parameter.png" alt="drawing" width="400"/>
 
-  - **Please make sure to use JSON to set Custom Event Class Data. Or you need to customize adapter yourself.**
+  **Note: Please make sure to use JSON to set Custom Event Class Data. Or you need to customize adapter yourself.**
 
 - Embed your MoPub Ad Placement to the line item.
 <br>
@@ -99,37 +97,6 @@ pod 'Ads-CN'
 //Import CSJ-MoPub Custom Event Adapter
 pod "CSJ-mopub-adapter"
 ```
-
-Initialize `CSJAdapterConfiguration` with the APP ID when you do MoPub SDK initialization, this step is used to initialize CSJ SDK, it's required.
-
-```
-    //set up mopub sdk config
-    MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:@"5bf96fc264934e838ac8fe8150c01b8f"];
-    
-    NSMutableDictionary *networkConfig = [NSMutableDictionary dictionaryWithCapacity:2];
-    
-    NSMutableDictionary *InitConfig = [[NSMutableDictionary alloc] init];
-    
-    //set your CSJ App Id to value, hardcode app_id for the key name
-    [InitConfig setValue:@"Your CSJ APP Id" forKey:@"app_id"];
-    
-    //init CSJAdapterConfiguration with the config
-    NSDictionary *config = @{@"CSJAdapterConfiguration":InitConfig};
-    
-    [networkConfig addEntriesFromDictionary:config];
-    
-    Class<MPAdapterConfiguration> BUAdSDKAdapterConfiguration = NSClassFromString(@"CSJAdapterConfiguration");
-    sdkConfig.additionalNetworks = @[BUAdSDKAdapterConfiguration];
-    
-    sdkConfig.mediatedNetworkConfigurations = networkConfig;
-    
-    [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:^{
-        NSLog(@"Mopub initializeSdk");
-    }];
-```
-
-Please refer to [Integrate Pangle SDK](https://www.pangleglobal.com/support/doc/6034ac60511c57004360ff72)
-and [Initialize Pangle SDK](https://www.pangleglobal.com/support/doc/6034ac73511c57004360ff76) for manual integration and more information.
 
 
 
